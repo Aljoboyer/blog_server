@@ -1,4 +1,5 @@
 const BlogCollection = require("../models/blog.schema");
+const {ObjectId} = require("mongodb");
 
 
 const blog_create_controller = async (req, res) => {
@@ -26,6 +27,21 @@ const blog_create_controller = async (req, res) => {
 };
 
 
+const getBlogsController = async (req, res) => {
+    const products = await BlogCollection.find({}).populate('writtenBy');
+    res.send(products);
+  };
+
+  const getSingleBlogController = async (req, res) => {
+    console.log('params ', req.params.id)
+    const objectIdQuery = new ObjectId(req.params.id);
+
+    const blog = await BlogCollection.findOne({_id: objectIdQuery }).populate('writtenBy');
+    res.send(blog);
+  };
+
 module.exports = {
-    blog_create_controller
+    blog_create_controller,
+    getBlogsController,
+    getSingleBlogController
   };
