@@ -83,10 +83,25 @@ const updateBlogController = async (req, res) => {
   }
 };
 
+
+const deleteBlogController = async (req, res) => {
+  console.log('delete Hitted', req.params.id)
+  try {
+    const objectIdQuery = new ObjectId(req.params.id);
+
+    const deleteBlog = await BlogCollection.deleteOne({_id: objectIdQuery})
+    res.send({msg: 'Deleted'});
+    
+  } catch (error) {
+    res.send({msg: error});
+  }
+};
+
 module.exports = {
     blog_create_controller,
     getBlogsController,
     getSingleBlogController,
     getPersonalBlogsController,
-    updateBlogController
+    updateBlogController,
+    deleteBlogController
   };
