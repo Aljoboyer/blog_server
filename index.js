@@ -4,9 +4,14 @@ const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 const connectDB = require('./src/DBconnection/DBconnect')
+const fileUpload = require("express-fileupload");
+const bodyParser = require("body-parser");
 
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload());
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
 connectDB()
 

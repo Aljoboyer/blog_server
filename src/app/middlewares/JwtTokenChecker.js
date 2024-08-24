@@ -1,25 +1,25 @@
 const jwt = require("jsonwebtoken");
 
 const JwtTokenChecker = (req, res, next) => {
-    let token = req.headers["x-access-token"];
-  
-    if (!token) {
+ 
+    let authHeader = req.headers?.authorization;
+    const token = authHeader.split(' ')[1];
+
+    if (!authHeader) {
       return res.status(403).send({
         message: "No token provided!"
       });
     }
-  
-    jwt.verify(token, config.auth.secret, (err, decoded) => {
+
+    jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
       if (err) {
-        return res.status(401).send({
-          message: "Unauthorized!"
-        });
+        return res.status(403).json({ error: 'Unauthorized !!', err });
       }
   
-      req.userId = decoded.id;
-  
+      req.user = user;
       next();
     });
+
   };
 
   module.exports = JwtTokenChecker;
