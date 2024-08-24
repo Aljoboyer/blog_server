@@ -5,13 +5,14 @@ const BlogUserCollection = require("../models/bloguser.schema");
 const SecretKey = process.env.SECRET_KEY;
 
 const signInController = async (req, res) => {
-  // console.log('Hitted signing', req.query)
-  const { email, password } = req.query;
+  // console.log('Hitted signing', req.body)
+
+  const { email, password } = req.body;
 
   try {
     const oldUser = await BlogUserCollection.findOne({ email });
     if (!oldUser)
-      return res.status(404).json({ message: "User doesn't exist" });
+      return res.status(400).json({ message: "User doesn't exist" });
 
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
@@ -31,8 +32,6 @@ const signInController = async (req, res) => {
 
 // User Signup
 const signUpController = async (req, res) => {
-
-  console.log('Hitted', req.body)
 
     const { email, password, firstName, lastName, phone} = req.body;
 
