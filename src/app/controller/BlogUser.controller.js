@@ -53,9 +53,6 @@ const signUpController = async (req, res) => {
         phone: phone,
       });
   
-    //   const token = jwt.sign({ email: result.email, id: result._id }, SecretKey, {
-    //     expiresIn: "1h",
-    //   });
     const token = jwt.sign({ email: result.email, id: result._id }, SecretKey ,{
       expiresIn: "8h",
     });

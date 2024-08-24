@@ -10,6 +10,12 @@ app.use(express.json());
 
 connectDB()
 
+
+// route
+const blogUserRoutes = require("./src/app/routes/bloguser.route");
+
+app.use("/user", blogUserRoutes);
+
 app.get("/", (req, res) => {
     console.log('Blog server is connected')
 });
